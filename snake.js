@@ -1,6 +1,9 @@
-var W = 1000;
-var H = 600;
+var W = 800;
+var H = 800;
 var size = 50;
+class Snake {};
+var tail = [];
+
 
 
 var fpsScale = 10;
@@ -9,8 +12,8 @@ var fc = 0;
 var cols = W / size;
 var rows = H / size;
 
-var game = new Phaser.Game(W, H, Phaser.CANVAS, 'phaser-example', { 
-    preload: preload, 
+var game = new Phaser.Game(W, H, Phaser.CANVAS, 'phaser-example', {
+    preload: preload,
     create: create,
     update: update
  });
@@ -48,6 +51,7 @@ function create() {
 }
 
 var nextMove =  new Phaser.Point(0, 0);
+var score = 0;
 
 function update() {
     fc++;
@@ -68,7 +72,7 @@ function update() {
         // freccia dx
         nextMove = new Phaser.Point(velocity, 0);
     }
-    
+
     if (cursors.left.isDown) {
         // freccia sx
         nextMove = new Phaser.Point(-velocity, 0);
@@ -78,7 +82,7 @@ function update() {
         var pos = sprite.position;
 
         pos.add(nextMove.x, nextMove.y);
-        
+
         // collisione con i bordi
         if (pos.x > W - size
             || pos.x < 0
@@ -91,21 +95,31 @@ function update() {
         // collisione con il cibo
         if (pos.x == food.position.x && pos.y == food.position.y) {
             eat();
-        }
+
+
+           }
+
+
+
     }
-  
+
 }
 
 function dead() {
     console.log('morto');
-    
+
     sprite.position.add(-nextMove.x, -nextMove.y);
-    
+
     game.paused = true;
+    console.log("Your Score is = " + score);
+
 }
 
 function eat() {
     moveFood( randomPos());
+    score += 4;
+  document.getElementById("insert").innerHTML ="Score: " + score;
+
 }
 
 function moveFood(point) {
