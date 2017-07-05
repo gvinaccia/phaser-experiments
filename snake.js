@@ -1,4 +1,4 @@
-var W = 800;
+var W = 1500;
 var H = 800;
 var size = 50;
 
@@ -15,7 +15,7 @@ var tail = [];
  */
 var life = 0;
 
-var fpsScale = 10;
+var fpsScale = 8;
 var fc = 0;
 
 var cols = W / size;
@@ -34,7 +34,7 @@ var food;
 
 function preload() {
 
-    game.stage.backgroundColor = '#000';
+    game.stage.backgroundColor = '#003300';
 
     game.load.image('snake', 'corpo.png');
     game.load.image('food', 'cibo.png');
@@ -44,7 +44,7 @@ function preload() {
 function create() {
     cursors = game.input.keyboard.createCursorKeys();
 
-    sprite = game.add.sprite(500, 300, 'snake');
+    snake = game.add.sprite(W/2, H/2, 'snake');
     food = game.add.sprite(0, 0, 'food');
 
     moveFood(randomPos());
@@ -55,6 +55,9 @@ var score = 0;
 
 function update() {
     fc++;
+    deathByTail();
+    highScore();
+    //restart();
 
     var velocity = size;
 
@@ -79,7 +82,7 @@ function update() {
     }
 
     if (fc % fpsScale == 0) {
-        var pos = sprite.position;
+        var pos = snake.position;
 
         /*
          * aggiungiamo un nuovo elemento nella coda nella
@@ -104,6 +107,7 @@ function update() {
             for (var i = 0; i < elementsToRemove.length; i++) {
                 elementsToRemove[i].destroy();
             }
+
         }
 
 
@@ -124,15 +128,37 @@ function update() {
         }
     }
 }
+function highScore(){
+  var highScore = score;
+  if(score > highScore){
+
+  }
+
+}
+/*
+function restart(){
+  if(game.input.keyboard.isDown(Phaser.Keyboard.R)){
+  game.paused = false;
+  tail.length = 0;
+  score -= score;
+  snake.position.add(2000,2000);
+  food.position.add(4000,4000);
+  create();
+  console.log("Restart");
+  }
+}
+*/
 
 function dead() {
     console.log('morto');
 
-    sprite.position.add(-nextMove.x, -nextMove.y);
+    snake.position.add(-nextMove.x, -nextMove.y);
 
     game.paused = true;
 
-    console.log("Your Score is = " + score);
+    console.log("Your Score is = " + score)
+    document.getElementById("GameOver").innerHTML =  "Game Over press R to restart";
+
 
 }
 
@@ -156,13 +182,10 @@ function randomPos() {
     return new Phaser.Point(randomCol * size, randomRow * size);
 }
 function deathByTail(){
-  for( var i = 0; i < life; i++){
-
+  for( var i = 0; i < tail.length; i++){
   var pos  = tail[i];
-  var distance= distance(pos.x,pos.y,'snake',  pos.x, pos.y, 'tail');
-  if(distance < 1 ){
-    game.paused = true;
-    console.log(dead);
+  if(snake.position.x  == pos.x && snake.position.y  == pos.y){
+    dead();
   }
 }
 

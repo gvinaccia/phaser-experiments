@@ -1,3 +1,7 @@
 -Aggiunto Punteggio.
 
 - implementata coda
+
+-Aggiunta morte alla collisione con il serpente
+
+-Aggiunta scritta "Game Over"

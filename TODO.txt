@@ -1,1 +1,3 @@
-Verificare collisione con corpo del serpente
+Verificare collisione con corpo del serpente(Fatto)
+Migliorare Game Over
+Aggiungere un restart
