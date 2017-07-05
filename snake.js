@@ -82,20 +82,20 @@ function update() {
         var pos = sprite.position;
 
         /*
-         * aggiungiamo un nuovo elemento nella coda nella 
+         * aggiungiamo un nuovo elemento nella coda nella
          * stessa posizione della testa prima di spostarla
          */
         tail.push(game.add.sprite(pos.x, pos.y, 'snake'));
 
         /*
          * se la lunghezza della coda è maggiora di "life"
-         * è necessario rimuovere gli elementi non più 
+         * è necessario rimuovere gli elementi non più
          * necessari
          */
         if (tail.length > life) {
             /*
              * il metodo splice rimuove x elementi da una lista
-             * in questo caso rimuoviamo la differenza tra 
+             * in questo caso rimuoviamo la differenza tra
              * lunghezza e "life", nella maggior parte dei
              * casi corrisponderà ad 1
              */
@@ -154,4 +154,16 @@ function randomPos() {
     var randomRow = Math.floor(Math.random() * rows);
 
     return new Phaser.Point(randomCol * size, randomRow * size);
+}
+function deathByTail(){
+  for( var i = 0; i < life; i++){
+
+  var pos  = tail[i];
+  var distance= distance(pos.x,pos.y,'snake',  pos.x, pos.y, 'tail');
+  if(distance < 1 ){
+    game.paused = true;
+    console.log(dead);
+  }
+}
+
 }
