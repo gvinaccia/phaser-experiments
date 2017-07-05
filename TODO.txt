@@ -1,3 +1,4 @@
-Verificare collisione con corpo del serpente(Fatto)
 Migliorare Game Over
 Aggiungere un restart
+
+utilizzare i testi di phaser per visualizzare punteggi e messaggi (quindi non con document.getElementById ecc)
