@@ -26,10 +26,14 @@ var playngState = {
 }
 
 var gameoverState = {
-    create: function() {
-        game.stage.backgroundColor = '#faf';
+    create: function () {
+        game.stage.backgroundColor = '#000';
+        var style = { font: "bold 72px Arial", fill: "#faf", boundsAlignH: "center", boundsAlignV: "middle" };
+        text = game.add.text(200, 200, "Game Over press 'R' to restart" , style);
+        text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+        
     },
-    update: function() {
+    update: function () {
         restart();
     }
 }
@@ -113,9 +117,9 @@ function dead() {
 
     snake.head.position.add(-nextMove.x, -nextMove.y);
 
-    console.log("Your Score is = " + score)
-    document.getElementById("GameOver").innerHTML = "Game Over press R to restart";
     game.state.start('gameover');
+
+
 }
 
 function moveFood(point) {

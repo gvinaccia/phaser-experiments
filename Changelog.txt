@@ -5,3 +5,5 @@
 -Aggiunta morte alla collisione con il serpente
 
 -Aggiunta scritta "Game Over"
+
+-Aggiunto "Restart"

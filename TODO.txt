@@ -1,4 +1,4 @@
-Migliorare Game Over
-Aggiungere un restart
+-Risolvere Bug Punteggio
+-Risolvere Bug Snake (Quando è lungo 2 si può fare "retromarcia")
 
-utilizzare i testi di phaser per visualizzare punteggi e messaggi (quindi non con document.getElementById ecc)
+
