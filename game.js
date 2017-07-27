@@ -14,6 +14,7 @@ var food;
 var nextMove;
 var score;
 
+var inputReceived = false;
 
 var snake;
 
@@ -29,9 +30,10 @@ var gameoverState = {
     create: function () {
         game.stage.backgroundColor = '#000';
         var style = { font: "bold 72px Arial", fill: "#faf", boundsAlignH: "center", boundsAlignV: "middle" };
-        text = game.add.text(200, 200, "Game Over press 'R' to restart" , style);
+        text = game.add.text(200, 200, "Game Over press 'R' to restart", style);
         text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
-        
+
+
     },
     update: function () {
         restart();
@@ -73,28 +75,33 @@ function update() {
 
     var velocity = size;
 
-    if (cursors.up.isDown) {
-        // freccia su
-        nextMove = new Phaser.Point(0, - velocity);
-    }
+    if (!inputReceived) {
+        if (cursors.up.isDown) {
+            // freccia su
+            nextMove = new Phaser.Point(0, - velocity);
+            inputReceived = true;
+        }
 
-    if (cursors.down.isDown) {
-        // freccia giu
-        nextMove = new Phaser.Point(0, velocity);
-    }
+        if (cursors.down.isDown) {
+            // freccia giu
+            nextMove = new Phaser.Point(0, velocity);
+            inputReceived = true;
+        }
 
-    if (cursors.right.isDown) {
-        // freccia dx
-        nextMove = new Phaser.Point(velocity, 0);
-    }
+        if (cursors.right.isDown) {
+            // freccia dx
+            nextMove = new Phaser.Point(velocity, 0);
+            inputReceived = true;
+        }
 
-    if (cursors.left.isDown) {
-        // freccia sx
-        nextMove = new Phaser.Point(-velocity, 0);
+        if (cursors.left.isDown) {
+            // freccia sx
+            nextMove = new Phaser.Point(-velocity, 0);
+            inputReceived = true;
+        }
     }
 
     if (fc % fpsScale == 0) {
-
         snake.move(nextMove);
 
         if (snake.eats(food)) {
@@ -102,6 +109,8 @@ function update() {
 
             score.incrementBy(4);
         }
+
+        inputReceived = false;
     }
 }
 

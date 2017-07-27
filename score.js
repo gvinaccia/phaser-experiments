@@ -1,6 +1,14 @@
 function Score() {
-    this.score = 0;
+    var style = {
+        font: "bold 32px Arial",
+        fill: "#fff",
+        boundsAlignH: "center",
+        boundsAlignV: "middle"
+    };
 
+    this.score = 0;
+    this.text = game.add.text(0, 0,"" , style);
+    this.text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
 
     this.incrementBy = function (points) {
         this.score += points;
@@ -8,9 +16,7 @@ function Score() {
     }
 
     this.display = function () {
-        var style = { font: "bold 32px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
-        text = game.add.text(0, 0, "Score: " + this.score, style);
-        text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+       this.text.setText("Score: " + this.score)
     }
 
     this.display();

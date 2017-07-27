@@ -3,6 +3,7 @@ function SnakeClass(headSprite) {
     this.head = headSprite;
     this.tail = [];
     this.life = 0;
+    this.prevDir = undefined;
 
 }
 
@@ -42,6 +43,14 @@ SnakeClass.prototype.move = function (vect) {
     }
 
     this.deathByTail();
+    if (this.life == 1 && this.prevDir != undefined) {
+        var sum = this.prevDir.add(vect.x, vect.y);
+       
+        if (sum.getMagnitude() == 0) {
+            dead();
+        }
+    }
+    this.prevDir = vect.clone();
 }
 
 SnakeClass.prototype.getPos = function () {
