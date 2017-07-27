@@ -30,8 +30,10 @@ var gameoverState = {
     create: function () {
         game.stage.backgroundColor = '#000';
         var style = { font: "bold 72px Arial", fill: "#faf", boundsAlignH: "center", boundsAlignV: "middle" };
-        text = game.add.text(200, 200, "Game Over press 'R' to restart", style);
+        var text = game.add.text(200, 200, "Game Over press 'R' to restart", style);
         text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+        var finalScore = game.add.text(400, 400, "Final Score = " + score.score, style);
+
 
 
     },
@@ -65,6 +67,7 @@ function create() {
     snake = new SnakeClass(game.add.sprite(W / 2, H / 2, 'snake'));
 
     food = game.add.sprite(0, 0, 'food');
+    
 
     moveFood(randomPos());
 
