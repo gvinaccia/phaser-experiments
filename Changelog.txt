@@ -7,3 +7,5 @@
 -Aggiunta scritta "Game Over"
 
 -Aggiunto "Restart"
+
+-pr
