@@ -29,6 +29,20 @@ var snake;
 
 var game = new Phaser.Game(W, H, Phaser.CANVAS, 'container');
 
+var menuState = {
+    create: function () {
+        var text1 = game.add.text(200, 200, 'Snake!', { font: '72px Arial', fill: '#faf' });
+        var startText = game.add.text(300, 300, 'Press "W" to start', { font: '50px Arial', fill: '#faf'});
+        var wKey = game.input.keyboard.addKey(Phaser.KeyBoard.W);
+        wKey.onDown.addOnce(this.start, this);
+    }
+    ,start: function (){
+        game.state.start('play')
+    }
+
+
+}
+
 var playngState = {
     preload: preload,
     create: create,
@@ -42,28 +56,36 @@ var gameoverState = {
         var text = game.add.text(200, 200, "Game Over press 'R' to restart", style);
         text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
         var finalScore = game.add.text(400, 400, "Final Score = " + score.score, style);
-        var highScoreDisplay = game.add.text(0, 0, "" , style) ;
+        var highScoreDisplay = game.add.text(0, 0, "", style);
         if (score.score > highScore) {
             highScore = score.score;
-            
+
             localStorage.setItem("high-score", highScore);
             highScoreDisplay.alpha = 0.1;
-           game.add.tween(highScoreDisplay).to( { alpha: 1 }, 2000, "Linear", true)
+            game.add.tween(highScoreDisplay).to({ alpha: 1 }, 2000, "Linear", true)
         }
 
-        highScoreDisplay.setText("High Score = " + highScore) ;
-        
-        
-        
+        highScoreDisplay.setText("High Score = " + highScore);
+
+
+
     },
     update: function () {
         restart();
     }
 }
+var menuState = {
+    menu: function () {
+        game.stage.backgroundColor = '#000';
+        var style = { font: "bold 72px Arial", fill: "#faf", boundsAlignH: "center", boundsAlignV: "middle" };
+        var t = game.add.text(200, 200, "Snake!", style);
+    }
+}
 
+game.state.add('menu', menuState);
 game.state.add('play', playngState);
 game.state.add('gameover', gameoverState);
-game.state.start('play');
+game.state.start('menu');
 
 
 function preload() {
@@ -141,7 +163,6 @@ function restart() {
         game.state.start('play');
     }
 }
-
 
 function dead() {
     console.log('morto');
