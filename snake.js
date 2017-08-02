@@ -1,6 +1,5 @@
-function SnakeClass(headSprite) {
-
-    this.head = headSprite;
+function SnakeClass(headSprite){
+ this.head = headSprite;
     this.tail = [];
     this.life = 0;
     this.prevDir = undefined;
@@ -79,4 +78,18 @@ SnakeClass.prototype.eats = function (food) {
         return true;
     }
     return false;
+}
+SnakeClass.prototype.overLaps = function(point){
+    //prendiamo in considerazione tutto il serpente
+    if(this.getPos().x == point.x && this.getPos().y == point.y){
+       return true;
+    }
+    for (var i = 0; i < snake.tail.length; i++) {
+        var pos = snake.tail[i];
+        if (point.x == pos.x && point.y == pos.y){
+            return true
+        }
+    }
+    return false;
+    
 }

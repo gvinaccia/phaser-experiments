@@ -8,4 +8,11 @@
 
 -Aggiunto "Restart"
 
--pr
+-aggiunt menu
+
+-risolto bug "spawn cibo sotto il serpente"
+
+-aggiunto highscore
+
+-aggiunto highscore alla schermata di gameover
+

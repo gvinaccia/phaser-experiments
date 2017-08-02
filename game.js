@@ -8,12 +8,15 @@ var fc = 0;
 var cols = W / size;
 var rows = H / size;
 
+var inputReceived = false;
 var cursors;
 var food;
 
+var snake;
 var nextMove;
 var score;
 var matches = [];
+
 
 if (localStorage.getItem('high-score')) {
     var highScore = localStorage.getItem('high-score');
@@ -23,64 +26,8 @@ if (localStorage.getItem('high-score')) {
 }
 
 
-var inputReceived = false;
-
-var snake;
 
 var game = new Phaser.Game(W, H, Phaser.CANVAS, 'container');
-
-var menuState = {
-    create: function () {
-        var text1 = game.add.text(200, 200, 'Snake!', { font: '72px Arial', fill: '#faf' });
-        var startText = game.add.text(300, 300, 'Press "W" to start', { font: '50px Arial', fill: '#faf'});
-        var wKey = game.input.keyboard.addKey(Phaser.KeyBoard.W);
-        wKey.onDown.addOnce(this.start, this);
-    }
-    ,start: function (){
-        game.state.start('play')
-    }
-
-
-}
-
-var playngState = {
-    preload: preload,
-    create: create,
-    update: update
-}
-
-var gameoverState = {
-    create: function () {
-        game.stage.backgroundColor = '#000';
-        var style = { font: "bold 72px Arial", fill: "#faf", boundsAlignH: "center", boundsAlignV: "middle" };
-        var text = game.add.text(200, 200, "Game Over press 'R' to restart", style);
-        text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
-        var finalScore = game.add.text(400, 400, "Final Score = " + score.score, style);
-        var highScoreDisplay = game.add.text(0, 0, "", style);
-        if (score.score > highScore) {
-            highScore = score.score;
-
-            localStorage.setItem("high-score", highScore);
-            highScoreDisplay.alpha = 0.1;
-            game.add.tween(highScoreDisplay).to({ alpha: 1 }, 2000, "Linear", true)
-        }
-
-        highScoreDisplay.setText("High Score = " + highScore);
-
-
-
-    },
-    update: function () {
-        restart();
-    }
-}
-var menuState = {
-    menu: function () {
-        game.stage.backgroundColor = '#000';
-        var style = { font: "bold 72px Arial", fill: "#faf", boundsAlignH: "center", boundsAlignV: "middle" };
-        var t = game.add.text(200, 200, "Snake!", style);
-    }
-}
 
 game.state.add('menu', menuState);
 game.state.add('play', playngState);
@@ -88,100 +35,4 @@ game.state.add('gameover', gameoverState);
 game.state.start('menu');
 
 
-function preload() {
-
-    game.stage.backgroundColor = '#000';
-
-    game.load.image('snake', 'corpo.png');
-    game.load.image('food', 'cibo.png');
-
-}
-
-function create() {
-    console.log('creating');
-    cursors = game.input.keyboard.createCursorKeys();
-
-    nextMove = new Phaser.Point(0, 0);
-
-    score = new Score();
-
-    snake = new SnakeClass(game.add.sprite(W / 2, H / 2, 'snake'));
-
-    food = game.add.sprite(0, 0, 'food');
-
-
-    moveFood(randomPos());
-
-}
-
-function update() {
-    fc++;
-
-    var velocity = size;
-
-    if (!inputReceived) {
-        if (cursors.up.isDown) {
-            // freccia su
-            nextMove = new Phaser.Point(0, - velocity);
-            inputReceived = true;
-        }
-
-        if (cursors.down.isDown) {
-            // freccia giu
-            nextMove = new Phaser.Point(0, velocity);
-            inputReceived = true;
-        }
-
-        if (cursors.right.isDown) {
-            // freccia dx
-            nextMove = new Phaser.Point(velocity, 0);
-            inputReceived = true;
-        }
-
-        if (cursors.left.isDown) {
-            // freccia sx
-            nextMove = new Phaser.Point(-velocity, 0);
-            inputReceived = true;
-        }
-    }
-
-    if (fc % fpsScale == 0) {
-        snake.move(nextMove);
-
-        if (snake.eats(food)) {
-            moveFood(randomPos());
-
-            score.incrementBy(4);
-        }
-
-        inputReceived = false;
-    }
-}
-
-function restart() {
-    if (game.input.keyboard.isDown(Phaser.Keyboard.R)) {
-        game.state.start('play');
-    }
-}
-
-function dead() {
-    console.log('morto');
-
-    snake.head.position.add(-nextMove.x, -nextMove.y);
-
-    game.state.start('gameover');
-
-
-}
-
-function moveFood(point) {
-    food.position = point;
-}
-
-function randomPos() {
-    var randomCol = Math.floor(Math.random() * cols);
-    var randomRow = Math.floor(Math.random() * rows);
-
-    return new Phaser.Point(randomCol * size, randomRow * size);
-}
 
