@@ -16,3 +16,7 @@
 
 -aggiunto highscore alla schermata di gameover
 
+-aggiunto highScore alla schermata di menu
+
+-risolto bug fpsScale
+

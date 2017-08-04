@@ -1,3 +1,4 @@
+
 var playngState = {
     preload: preload,
     create: create,
@@ -14,6 +15,14 @@ function preload() {
 function create() {
     cursors = game.input.keyboard.createCursorKeys();
 
+    bKey = game.input.keyboard.addKey(Phaser.Keyboard.B);
+    bKey.onDown.addOnce(function(){ 
+        game.state.start('menu');
+    }, this);
+   
+
+
+   
     nextMove = new Phaser.Point(0, 0);
 
     score = new Score();
@@ -68,7 +77,7 @@ function update() {
             moveFood();
 
             score.incrementBy(4);
-            //fpsScale --;
+            fpsScale --;
             if(fpsScale == 0){
                 fpsScale = 1;
             }
@@ -81,6 +90,8 @@ function dead() {
     console.log('morto');
 
     snake.head.position.add(-nextMove.x, -nextMove.y);
+
+    fpsScale = 8
 
     game.state.start('gameover');
 
@@ -99,4 +110,11 @@ function randomPos() {
     var randomRow = Math.floor(Math.random() * rows);
 
     return new Phaser.Point(randomCol * size, randomRow * size);
+}
+function highScoreParty (){
+    if(score.score > highScore){
+       var update = game.add.text(0, H/2,"New HighScore!!")
+       update.anchor.setTo(0.5);
+
+    }
 }
