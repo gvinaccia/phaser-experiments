@@ -77,7 +77,11 @@ function update() {
             moveFood();
 
             score.incrementBy(4);
-            fpsScale --;
+
+            if(snake.life % 4 === 0){
+                console.log("Speeding things up!");
+                //fpsScale --;
+            }
             if(fpsScale == 0){
                 fpsScale = 1;
             }
@@ -110,11 +114,4 @@ function randomPos() {
     var randomRow = Math.floor(Math.random() * rows);
 
     return new Phaser.Point(randomCol * size, randomRow * size);
-}
-function highScoreParty (){
-    if(score.score > highScore){
-       var update = game.add.text(0, H/2,"New HighScore!!")
-       update.anchor.setTo(0.5);
-
-    }
 }

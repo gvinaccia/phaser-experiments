@@ -1,0 +1,22 @@
+-Aggiunto Punteggio.
+
+- implementata coda
+
+-Aggiunta morte alla collisione con il serpente
+
+-Aggiunta scritta "Game Over"
+
+-Aggiunto "Restart"
+
+-aggiunt menu
+
+-risolto bug "spawn cibo sotto il serpente"
+
+-aggiunto highscore
+
+-aggiunto highscore alla schermata di gameover
+
+-aggiunto highScore alla schermata di menu
+
+-risolto bug fpsScale
+
