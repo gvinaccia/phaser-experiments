@@ -1,5 +1,5 @@
-var gameoverState = {
-    create: function () {
+class GameoverState {
+    create() {
         game.stage.backgroundColor = '#000';
         var style = { font: "bold 72px Arial", fill: "#faf", boundsAlignH: "center", boundsAlignV: "middle" };
         var text = game.add.text(200, 200, "Game Over press 'R' to restart", style);
@@ -15,16 +15,11 @@ var gameoverState = {
         }
 
         highScoreDisplay.setText("High Score = " + highScore);
-
-
-
-    },
-    update: function () {
-        restart();
     }
-}
-function restart() {
-    if (game.input.keyboard.isDown(Phaser.Keyboard.R)) {
-        game.state.start('play');
+
+    update() {
+        if (game.input.keyboard.isDown(Phaser.Keyboard.R)) {
+            game.state.start('play');
+        }
     }
 }

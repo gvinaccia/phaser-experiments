@@ -1,5 +1,5 @@
-var menuState = {
-    create: function () {
+class MenuState  {
+    create() {
         var highScore = localStorage.getItem('high-score');
         var text1 = game.add.text(W/2, 200, 'Snake!', { font: '90px Arial', fill: '#faf' });
         var startText = game.add.text(W/2, 400, 'Press "W" to start', { font: '90px Arial', fill: '#faf'});
@@ -9,8 +9,8 @@ var menuState = {
         text1.anchor.setTo(0.5);
         startText.anchor.setTo(0.5);
     }
-    ,start: function (){
-        
+
+    start() {
         game.state.start('play');
     }
 }
