@@ -5,12 +5,17 @@ class PlayngState {
     }
 
     create() {
-        this.leftPaddle = new Paddle(new Phaser.Point(0, H / 2));
-        this.rightPaddle = new Paddle(new Phaser.Point(W, H / 2));
+        this.leftPaddle = new Paddle(new Phaser.Point(0, H / 2),"sinistra");
+        this.rightPaddle = new Paddle(new Phaser.Point(W, H / 2),"destra");
         this.rightCursors = this.game.input.keyboard.addKeys({ 'up': Phaser.KeyCode.UP, 'down': Phaser.KeyCode.DOWN});
         this.leftCursors = this.game.input.keyboard.addKeys({ 'up': Phaser.KeyCode.W, 'down': Phaser.KeyCode.S});
-        this.ball = new Ball(new Phaser.Point(1,-2));
+        this.score1 = this.game.add.text(0 , 0, score1 , { font: '40px Arial', fill: '#faf' });
+        this.score2 = this.game.add.text(W - 50 , 0, score2  , { font: '40px Arial', fill: '#faf' });
 
+
+        this.ball = new Ball(new Phaser.Point(5,1));
+        console.log(this.ball)
+        this.ball.setPaddles(this.leftPaddle,this.rightPaddle);
     }
 
     update() {
