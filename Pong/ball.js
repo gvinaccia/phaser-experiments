@@ -7,6 +7,24 @@ class Ball {
         this.direction = direction;
     }
 
+    onPoint(callback) {
+        this.onPointCallback = callback;
+    }
+
+    notifyP1Point() {
+        // se è definita la proprietà onpointcallback (che ci aspettiamo sia una funzione, chiamiamola con un identificativo del giocatore)
+        if (this.onPointCallback) {
+            this.onPointCallback('p1');
+        }
+    }
+
+    notifyP2Point() {
+        if (this.onPointCallback) {
+            this.onPointCallback('p2');
+        }
+    }
+
+
     update() {
         const ballH = this.sprite.height / 2;
 
@@ -20,17 +38,25 @@ class Ball {
 
         // controlla morto
         const newX = this.sprite.position.x + this.direction.x;
-        this.score1 = 0;
-        this.score2 = 0;
-        if(newX > W){
-            score1 ++;
-            console.log("PlayerOne Scores!")
-            console.log(score1)
+
+
+        //serve un flag giusto? si, e serve reinizializzare la palla al centro
+
+
+        if (newX > W && newX < 1110) {
+
+            this.notifyP1Point();
+            
+            this.pointStop = true;
+
+
+
+
         }
-        if(newX < 0){
-            score2++;
-            console.log("PlayerTwo Scores!")
-            console.log(score2)
+        if (newX < 0 && newX > -10) {
+            this.notifyP2Point();
+            
+
         }
 
 
@@ -43,67 +69,41 @@ class Ball {
         const leftCollision = this.collidesWith(this.paddle1, newY, newX);
 
 
-        if (rightCollision) {
-
-            const segment = this.getCollisionSegment(this.paddle2, newY);
+        if (rightCollision || leftCollision) {
+            
+             let invert = 1;
+            this.direction.x *= -1;
+            let segment;
+            if (rightCollision) {
+                segment = this.getCollisionSegment(this.paddle2, newY);
+            } else {
+                invert = -1
+                segment = this.getCollisionSegment(this.paddle1, newY);
+            }
 
             
+
             if (segment == 1) {
-                this.direction.x *= -1;
-                this.direction.y *= -4;
-                
+                this.direction.rotate(0, 0, 30 * invert, true);
             }
 
             else if (segment == 2) {
-                this.direction.x *= -1;
-                this.direction.y *= 2;
-                
+                this.direction.rotate(0, 0, 10 * invert, true);
             }
 
             else if (segment == 3) {
-                this.direction.x *= -1;
-                this.direction.y *= 4;
-                
+                this.direction.rotate(0, 0, -10  * invert, true);
             }
 
             else if (segment == 4) {
-                this.direction.x *= -1;
-                this.direction.y *= 2;
-                
+                this.direction.rotate(0, 0, -30 * invert, true);
             }
-        }
-
-        if (leftCollision) {
-            const segment = this.getCollisionSegment(this.paddle1, newY);
-
-
-            console.log(segment);
-            if (segment == 1) {
-                this.direction.x *= -1;
-                this.direction.y *= -4;
-                
-            }
-
-            else if (segment == 2) {
-                this.direction.x *= -1;
-                this.direction.y *= 2;
-                
-            }
-
-            else if (segment == 3) {
-                this.direction.x *= -1;
-                this.direction.y *= 4;
-                
-            }
-
-            else if (segment == 4) {
-                this.direction.x *= -1;
-                this.direction.y *= 2;
-                
-            }
-        }
-
             
+        }
+
+
+
+
 
         this.sprite.position.add(this.direction.x, this.direction.y);
 
@@ -117,7 +117,7 @@ class Ball {
         const yEnd = paddle.getY() + paddleHeight;
 
         // la palla è nella fascia x del paddle?
-        if (!(x == paddle.getX() + paddleWidth || x == paddle.getX() - paddleWidth)) {
+        if (!(x <= paddle.getX() + paddleWidth && x >= paddle.getX() - paddleWidth)) {
             return false;
         }
 

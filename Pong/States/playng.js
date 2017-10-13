@@ -9,13 +9,24 @@ class PlayngState {
         this.rightPaddle = new Paddle(new Phaser.Point(W, H / 2),"destra");
         this.rightCursors = this.game.input.keyboard.addKeys({ 'up': Phaser.KeyCode.UP, 'down': Phaser.KeyCode.DOWN});
         this.leftCursors = this.game.input.keyboard.addKeys({ 'up': Phaser.KeyCode.W, 'down': Phaser.KeyCode.S});
-        this.score1 = this.game.add.text(0 , 0, score1 , { font: '40px Arial', fill: '#faf' });
-        this.score2 = this.game.add.text(W - 50 , 0, score2  , { font: '40px Arial', fill: '#faf' });
-
 
         this.ball = new Ball(new Phaser.Point(5,1));
-        console.log(this.ball)
         this.ball.setPaddles(this.leftPaddle,this.rightPaddle);
+
+        this.score1 = 0;
+        this.score2 = 0;
+
+        this.ball.onPoint((player) => {
+            if (player == 'p1') {
+                this.score1++;
+            }
+            if (player == 'p2') {
+                this.score2++;
+            }
+        })
+        
+        this.score1Info = this.game.add.text(0 , 0, this.score1 , { font: '40px Arial', fill: '#faf' });
+        this.score2Info = this.game.add.text(W - 50 , 0, this.score2  , { font: '40px Arial', fill: '#faf' });
     }
 
     update() {
@@ -32,5 +43,9 @@ class PlayngState {
            this.rightPaddle.move(5);
        }
        this.ball.update()
+
+       // aggiorniamo i display dei punti
+       this.score1Info.text = this.score1.toString();
+       this.score2Info.text = this.score2.toString();
     }
 }

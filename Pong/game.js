@@ -8,10 +8,11 @@ game.state.add('play', new PlayngState());
 game.state.add('gameover', new GameoverState());
 
 // avvia il gioco
-game.state.start('menu');
+game.state.start('play');
 
 
 
 
 
 
+// ok ale funziona :) come faccio ad usare score di ball in play?
